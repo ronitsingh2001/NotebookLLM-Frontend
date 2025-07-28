@@ -5,7 +5,7 @@ import { PDFContext } from "../store/PDFContext";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import rehypeHighlight from "rehype-highlight";
-import TipsPlaceholder from "./TipsPlaceHolder";
+import TipsPlaceholder from "./TipsPlaceholder";
 
 type QnAItem = { query: string; response: string };
 
@@ -47,7 +47,7 @@ export default function ChatScreen({ onOpen }: { onOpen: () => void }) {
         newState[newState.length - 1] = { query, response: data.response };
         return newState;
       });
-    } catch (err: any) {
+    } catch (err: unknown) {
       setQnA((state) => {
         const newState = [...state];
         newState[newState.length - 1] = {
@@ -56,7 +56,7 @@ export default function ChatScreen({ onOpen }: { onOpen: () => void }) {
         };
         return newState;
       });
-      setError(err?.message || "Unknown error occurred.");
+      setError(err instanceof Error ? err.message : "Unknown error occurred.");
     } finally {
       setLoading(false);
     }
